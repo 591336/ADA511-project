@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn import metrics
 from typing import Dict, Tuple
 
+#implemented utility, now split in new class -> utlity_based_classifier
+
 class UtilityBasedCancerPredictor:
     def __init__(self, utility_matrix: Dict[Tuple[int, int], float] = None):
         """
@@ -134,7 +136,7 @@ class UtilityBasedCancerPredictor:
 # Usage example
 if __name__ == "__main__":
     # Load and prepare data
-    data = pd.read_csv("breast_cancer.csv")
+    data = pd.read_csv("Datasets/breast_cancer.csv")
     data['diagnosis'] = (data['diagnosis'] == 'M').astype(int)
     
     # Select features

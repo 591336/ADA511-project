@@ -1,9 +1,9 @@
-# utility_based_classifier.py
-
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn import metrics
+import matplotlib.pyplot as plt
+import seaborn as sns
 from typing import Dict, Tuple
 
 class UtilityBasedCancerPredictor:
@@ -45,10 +45,10 @@ class UtilityBasedCancerPredictor:
         
         sensitivity = tp / (tp + fn) if (tp + fn) > 0 else 0
         specificity = tn / (tn + fp) if (tn + fp) > 0 else 0
-        ppv = tp / (tp + fp) if (tp + fp) > 0 else 0
-        npv = tn / (tn + fn) if (tn + fn) > 0 else 0
+        ppv = tp / (tp + fp) if (tp + fp) > 0 else 0  # Positive predictive value
+        npv = tn / (tn + fn) if (tn + fn) > 0 else 0  # Negative predictive value
         
-        return {
+        results = {
             'model_name': model_name,
             'total_utility': total_utility,
             'average_utility': average_utility,
@@ -59,8 +59,42 @@ class UtilityBasedCancerPredictor:
             'true_negatives': tn,
             'false_positives': fp,
             'false_negatives': fn,
-            'true_positives': tp
+            'true_positives': tp,
+            'confusion_matrix': cm  # Include confusion matrix for plotting
         }
+        
+        return results
+    
+    def plot_confusion_matrix(self, cm, labels):
+        """Plot a confusion matrix using seaborn."""
+        plt.figure(figsize=(6, 4))
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=labels, yticklabels=labels)
+        plt.xlabel('Predicted')
+        plt.ylabel('Actual')
+        plt.title('Confusion Matrix')
+        plt.show()
+
+    def print_evaluation(self, results: dict):
+        """Print formatted evaluation results and plot confusion matrix."""
+        print(f"\n=== {results['model_name']} Performance ===")
+        print(f"Total Utility: {results['total_utility']:.2f}")
+        print(f"Average Utility per Prediction: {results['average_utility']:.2f}")
+
+        print("\nConfusion Matrix:")
+        print(f"True Negatives: {results['true_negatives']}")
+        print(f"False Positives: {results['false_positives']}")
+        print(f"False Negatives: {results['false_negatives']}")
+        print(f"True Positives: {results['true_positives']}")
+
+        print("\nClinical Metrics:")
+        print(f"Sensitivity (True Positive Rate): {results['sensitivity']:.4f}")
+        print(f"Specificity (True Negative Rate): {results['specificity']:.4f}")
+        print(f"Positive Predictive Value: {results['ppv']:.4f}")
+        print(f"Negative Predictive Value: {results['npv']:.4f}")
+
+        # Plot the confusion matrix
+        if 'confusion_matrix' in results:
+            self.plot_confusion_matrix(results['confusion_matrix'], labels=["Benign", "Malignant"])
     
     def custom_scorer(self, estimator, X, y):
         """Custom scorer for GridSearchCV that uses our utility function."""
@@ -100,22 +134,3 @@ class UtilityBasedCancerPredictor:
         results = self.evaluate_model(y_test, y_pred, "Optimized Model")
         
         return self.best_model, results
-    
-    
-    def print_evaluation(self, results: dict):
-        """Print formatted evaluation results."""
-        print(f"\n=== {results['model_name']} Performance ===")
-        print(f"Total Utility: {results['total_utility']:.2f}")
-        print(f"Average Utility per Prediction: {results['average_utility']:.2f}")
-        
-        print("\nConfusion Matrix:")
-        print(f"True Negatives: {results['true_negatives']}")
-        print(f"False Positives: {results['false_positives']}")
-        print(f"False Negatives: {results['false_negatives']}")
-        print(f"True Positives: {results['true_positives']}")
-        
-        print("\nClinical Metrics:")
-        print(f"Sensitivity (True Positive Rate): {results['sensitivity']:.4f}")
-        print(f"Specificity (True Negative Rate): {results['specificity']:.4f}")
-        print(f"Positive Predictive Value: {results['ppv']:.4f}")
-        print(f"Negative Predictive Value: {results['npv']:.4f}")

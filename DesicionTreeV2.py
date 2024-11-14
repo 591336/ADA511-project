@@ -1,10 +1,12 @@
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
-from sklearn import metrics
+from utility_based_classifier import UtilityBasedCancerPredictor
+
+# cant remember exactly what changed from V1
 
 # Load dataset
-data = pd.read_csv("breast_cancer.csv")
+data = pd.read_csv("Datasets/breast_cancer.csv")
 data['diagnosis'] = (data['diagnosis'] == 'M').astype(int)
 
 # Select features
@@ -22,34 +24,7 @@ clf = clf.fit(X_train, y_train)
 # Make predictions
 y_pred = clf.predict(X_test)
 
-# Calculate and display feature importance
-feature_importance = pd.DataFrame({
-    'feature': feature_cols,
-    'importance': clf.feature_importances_
-})
-feature_importance = feature_importance.sort_values('importance', ascending=False)
-
-print("=== Model Performance Metrics ===")
-print(f"Accuracy: {metrics.accuracy_score(y_test, y_pred):.4f}")
-
-print("\n=== Classification Report ===")
-print(metrics.classification_report(y_test, y_pred))
-
-print("\n=== Confusion Matrix ===")
-cm = metrics.confusion_matrix(y_test, y_pred)
-print(cm)
-print("\nConfusion Matrix Explanation:")
-print(f"True Negatives: {cm[0,0]}")
-print(f"False Positives: {cm[0,1]}")
-print(f"False Negatives: {cm[1,0]}")
-print(f"True Positives: {cm[1,1]}")
-
-print("\n=== Top 10 Most Important Features ===")
-print(feature_importance.head(10).to_string())
-
-# Calculate some basic statistics about the dataset
-print("\n=== Dataset Statistics ===")
-print(f"Total samples: {len(data)}")
-print(f"Malignant samples: {sum(data['diagnosis'] == 1)}")
-print(f"Benign samples: {sum(data['diagnosis'] == 0)}")
-print(f"Malignant percentage: {(sum(data['diagnosis'] == 1) / len(data) * 100):.1f}%")
+# Use UtilityBasedCancerPredictor for consistent evaluation and visualization
+predictor = UtilityBasedCancerPredictor()
+results = predictor.evaluate_model(y_test, y_pred, model_name="Decision Tree V2")
+predictor.print_evaluation(results)
