@@ -1,11 +1,11 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from utility_based_classifier import UtilityBasedCancerPredictor
+from utility_based_opm import UtilityBasedCancerPredictor
 
 if __name__ == "__main__":
     # Load and prepare data
     data = pd.read_csv("Datasets/breast_cancer.csv")
-    data['diagnosis'] = (data['diagnosis'] == 'M').astype(int)
+    data['diagnosis'] = (data['diagnosis'] == 'M').astype(int)  # 1 for Malignant, 0 for Benign
     
     # Select features
     feature_cols = [col for col in data.columns if col not in ['id', 'diagnosis']]

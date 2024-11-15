@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from utility_based_classifier import UtilityBasedCancerPredictor
+from utility_based_classification.utility_based_classifier import UtilityBasedCancerPredictor
 
 # Load the new Kaggle dataset
 data = pd.read_csv('Datasets/breast_cancer_data_kaggle.csv')

@@ -2,7 +2,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from utility_based_classifier import UtilityBasedCancerPredictor
+from utility_based_classification.utility_based_classifier import UtilityBasedCancerPredictor
 
 def run_model_v1():
     # Load dataset for Model V1

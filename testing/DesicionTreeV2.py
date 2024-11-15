@@ -1,9 +1,9 @@
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
-from utility_based_classifier import UtilityBasedCancerPredictor
+from utility_based_classification.utility_based_classifier import UtilityBasedCancerPredictor
 
-# first test directly taken form datacamp
+# cant remember exactly what changed from V1
 
 # Load dataset
 data = pd.read_csv("Datasets/breast_cancer.csv")
@@ -26,5 +26,5 @@ y_pred = clf.predict(X_test)
 
 # Use UtilityBasedCancerPredictor for consistent evaluation and visualization
 predictor = UtilityBasedCancerPredictor()
-results = predictor.evaluate_model(y_test, y_pred, model_name="Decision Tree V1")
+results = predictor.evaluate_model(y_test, y_pred, model_name="Decision Tree V2")
 predictor.print_evaluation(results)
