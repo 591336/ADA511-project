@@ -130,10 +130,9 @@ class UtilityBasedCancerPredictor:
             'min_samples_split': [2, 5, 10],
             'min_samples_leaf': [1, 2, 4],
             'class_weight': [
-                {0: 1, 1: 1},
-                {0: 1, 1: 5},
-                {0: 1, 1: 10},
-                'balanced'
+                # {0: 1, 1: 1},
+                # {0: 1, 1: 5},
+                'balanced' # tested different weights, but balanced gave the best results every run
             ],
             'criterion': ['gini', 'entropy']
         }
@@ -146,7 +145,7 @@ class UtilityBasedCancerPredictor:
             scoring=self.custom_scorer,
             cv=5,
             n_jobs=-1,
-            verbose=1
+            verbose=2
         )
         
         grid_search.fit(X_train, y_train)
@@ -158,5 +157,6 @@ class UtilityBasedCancerPredictor:
         y_pred = self.opm_decision(probabilities)
         
         results = self.evaluate_model(y_test, y_pred, "Optimized OPM Model")
+        print(f"Best Model Parameters: {grid_search.best_params_}")
         
         return self.best_model, results
