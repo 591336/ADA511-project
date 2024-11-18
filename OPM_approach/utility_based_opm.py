@@ -130,9 +130,10 @@ class UtilityBasedCancerPredictor:
             'min_samples_split': [2, 5, 10],
             'min_samples_leaf': [1, 2, 4],
             'class_weight': [
-                # {0: 1, 1: 1},
-                # {0: 1, 1: 5},
-                'balanced' # tested different weights, but balanced gave the best results every run
+                {0: 1, 1: 1},
+                {0: 1, 1: 5},
+                {0: 1, 1: 10},
+                'balanced' # tested different weights, but balanced gives the best results, on cv=5, but not on cv=10
             ],
             'criterion': ['gini', 'entropy']
         }
@@ -143,9 +144,9 @@ class UtilityBasedCancerPredictor:
             estimator=base_model,
             param_grid=param_grid,
             scoring=self.custom_scorer,
-            cv=5,
-            n_jobs=-1,
-            verbose=2
+            cv=10,
+            n_jobs=-4,
+            verbose=1
         )
         
         grid_search.fit(X_train, y_train)
