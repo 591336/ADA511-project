@@ -16,7 +16,7 @@ X = data[feature_cols]
 y = data['diagnosis']
 
 # Split dataset
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
 # Train model
 clf = DecisionTreeClassifier(criterion="entropy", max_depth=5)
@@ -43,14 +43,14 @@ def evaluate_and_plot_confusion_matrix(y_true, y_pred, model_name="Decision Tree
     print(f"False Negatives: {fn}")
     print(f"True Positives: {tp}")
 
-    # Plot the confusion matrix
-    plt.figure(figsize=(6, 4))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', cbar=False,
-                xticklabels=['Benign', 'Malignant'], yticklabels=['Benign', 'Malignant'])
-    plt.title('Confusion Matrix')
-    plt.xlabel('Predicted')
-    plt.ylabel('Actual')
-    plt.show()
+    # # Plot the confusion matrix
+    # plt.figure(figsize=(6, 4))
+    # sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', cbar=False,
+    #             xticklabels=['Benign', 'Malignant'], yticklabels=['Benign', 'Malignant'])
+    # plt.title('Confusion Matrix')
+    # plt.xlabel('Predicted')
+    # plt.ylabel('Actual')
+    # plt.show()
 
 # Evaluate and plot results
 evaluate_and_plot_confusion_matrix(y_test, y_pred)

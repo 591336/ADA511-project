@@ -20,7 +20,7 @@ y = data['diagnosis']
 X = X.fillna(X.mean())
 
 # Split dataset (80% train, 20% test)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
 utility_matrix = {
     (0,0): 1.0,    # True Negative

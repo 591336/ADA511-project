@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from utility_based_classification.utility_based_classifier import UtilityBasedCancerPredictor
+from utility_based_classifier import UtilityBasedCancerPredictor
+from sklearn import metrics
 
 # run utility based classifier on dataset
 
@@ -16,7 +17,7 @@ if __name__ == "__main__":
     
     # Split dataset
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.3, random_state=42
+        X, y, test_size=0.3
     )
     
     # Custom utility matrix (optional customization)

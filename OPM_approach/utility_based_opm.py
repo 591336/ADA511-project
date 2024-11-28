@@ -86,14 +86,14 @@ class UtilityBasedCancerPredictor:
         
         return results
     
-    def plot_confusion_matrix(self, cm, labels):
-        """Plot a confusion matrix using seaborn."""
-        plt.figure(figsize=(6, 4))
-        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=labels, yticklabels=labels)
-        plt.xlabel('Predicted')
-        plt.ylabel('Actual')
-        plt.title('Confusion Matrix')
-        plt.show()
+    # def plot_confusion_matrix(self, cm, labels):
+    #     """Plot a confusion matrix using seaborn."""
+    #     plt.figure(figsize=(6, 4))
+    #     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=labels, yticklabels=labels)
+    #     plt.xlabel('Predicted')
+    #     plt.ylabel('Actual')
+    #     plt.title('Confusion Matrix')
+    #     plt.show()
     
     def print_evaluation(self, results: dict):
         """Print formatted evaluation results and plot confusion matrix."""
@@ -113,9 +113,9 @@ class UtilityBasedCancerPredictor:
         print(f"Positive Predictive Value: {results['ppv']:.4f}")
         print(f"Negative Predictive Value: {results['npv']:.4f}")
     
-        # Plot the confusion matrix
-        if 'confusion_matrix' in results:
-            self.plot_confusion_matrix(results['confusion_matrix'], labels=["Benign", "Malignant"])
+        # # Plot the confusion matrix
+        # if 'confusion_matrix' in results:
+        #     self.plot_confusion_matrix(results['confusion_matrix'], labels=["Benign", "Malignant"])
     
     def custom_scorer(self, estimator, X, y):
         """Custom scorer for GridSearchCV that uses OPM-based utility."""
@@ -144,8 +144,7 @@ class UtilityBasedCancerPredictor:
             estimator=base_model,
             param_grid=param_grid,
             scoring=self.custom_scorer,
-            cv=10,
-            n_jobs=-4,
+            cv=2,
             verbose=1
         )
         
